@@ -1,0 +1,30 @@
+.DS_Store
+Thumbs.db
+
+# SwiftPM and local build output
+.build/
+.swiftpm/
+DerivedData/
+dist/
+*.xcuserstate
+xcuserdata/
+
+# Local logs and packages
+*.log
+*.zip
+*.dmg
+*.sha256
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# AI and editor state
+.codex/
+.codex*
+AGENTS.md
+CLAUDE.md
+.cursor/
+.idea/
+.vscode/
