@@ -58,14 +58,17 @@ public enum ConfigScanner {
         let proxyGroups = proxyGroupOptions(parsed: parsed, classifier: classifier)
         let suggested = suggestedProxyGroup(from: proxyGroups)
         let score = protectionScore(findings: findings)
-        let allServers = [
-            parsed.dns?.nameserver ?? [],
-            parsed.dns?.fallback ?? [],
-            parsed.dns?.defaultNameserver ?? [],
-            parsed.dns?.proxyServerNameserver ?? [],
-            parsed.dns?.directNameserver ?? [],
-            parsed.dns?.policy.flatMap(\.servers) ?? []
-        ].flatMap { $0 }
+        var allServers: [DNSServerEntry] = []
+        if let dns = parsed.dns {
+            allServers.append(contentsOf: dns.nameserver)
+            allServers.append(contentsOf: dns.fallback)
+            allServers.append(contentsOf: dns.defaultNameserver)
+            allServers.append(contentsOf: dns.proxyServerNameserver)
+            allServers.append(contentsOf: dns.directNameserver)
+            for policy in dns.policy {
+                allServers.append(contentsOf: policy.servers)
+            }
+        }
 
         return ConfigAnalysis(
             findings: findings,
